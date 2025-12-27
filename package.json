@@ -1,0 +1,13 @@
+{
+  "name": "com.athdeleonardis.jlga",
+  "version": "1.2.3",
+  "displayName": "Jack's Love Game Architecture",
+  "description": "A verbose library for making games in Unity.",
+  "unity": "2023.3",
+  "unityRelease": "36f1",
+  "author": {
+    "name": "Andrew De Leonardis",
+    "email": "athdeleonardis.business@gmail.com",
+    "url": "https://athdeleonardis.com"
+  }
+}
