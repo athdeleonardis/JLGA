@@ -1,0 +1,16 @@
+{
+    "name": "athdeleonardis.jlga.runtime.unity.state",
+    "rootNamespace": "JLGA.Unity.State",
+    "references": [
+        "GUID:9dc39fb13c4496b48b6528ca8d84c664"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,14 @@
+{
+    "name": "athdeleonardis.jlga.runtime.architecture.state",
+    "rootNamespace": "JLGA.Architecture.State",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,17 @@
+{
+    "name": "athdeleonardis.jlga.runtime.unity.task",
+    "rootNamespace": "JLGA.Unity.Task",
+    "references": [
+        "GUID:def831c569fe5194bb0577bc575a50a5",
+        "GUID:3c7cfd44919af034b8e873761b4b13a1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
