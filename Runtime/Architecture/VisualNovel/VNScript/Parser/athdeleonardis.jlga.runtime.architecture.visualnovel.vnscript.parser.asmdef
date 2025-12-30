@@ -1,7 +1,9 @@
 {
-    "name": "athdeleonardis.jlga.runtime.architecture",
-    "rootNamespace": "JLGA.Architecture",
-    "references": [],
+    "name": "athdeleonardis.jlga.runtime.architecture.visualnovel.vnscript.parser",
+    "rootNamespace": "JLGA.Architecture.VisualNovel.VNScript.Parser",
+    "references": [
+        "GUID:14390ad6a4167ce41aca3d6dc99e6e2e"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
