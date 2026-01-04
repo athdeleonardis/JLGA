@@ -10,5 +10,10 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Data
 
         public VNIndex Start { get; }
         public VNIndex End { get; }
+
+        public VNString StartFrom(VNIndex start)
+        {
+            return new VNString(start, End);
+        }
     }
 }

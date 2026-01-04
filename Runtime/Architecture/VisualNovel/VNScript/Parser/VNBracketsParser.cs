@@ -22,15 +22,15 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
             public VNIndex? EndIndex { get; }
             public bool EndParse { get; }
             public VNBracketPair? BracketPair { get; }
-            public VNString? BracketPairString { get; }
+            public VNString? BracketPairContents { get; }
 
-            private Result(ResultType type, VNIndex? endIndex, bool endParse, VNBracketPair? bracketPair, VNString? bracketPairString)
+            private Result(ResultType type, VNIndex? endIndex, bool endParse, VNBracketPair? bracketPair, VNString? bracketPairContents)
             {
                 Type = type;
                 EndIndex = endIndex;
                 EndParse = endParse;
                 BracketPair = bracketPair;
-                BracketPairString = bracketPairString;
+                BracketPairContents = bracketPairContents;
             }
 
             public static Result TypeEndParse(VNIndex? endIndex)
@@ -91,8 +91,8 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
             }
 
             // Form final result
-            VNString bracketString = new VNString(leftBracketIndex.Value, rightBracketIndex.Value);
-            return Result.TypeBracketPair(script.Next(rightBracketIndex.Value), brackets.Value, bracketString);
+            VNString bracketsContents = new VNString(script.Next(leftBracketIndex.Value).Value, rightBracketIndex.Value);
+            return Result.TypeBracketPair(script.Next(rightBracketIndex.Value), brackets.Value, bracketsContents);
         }
 
         #endregion
@@ -172,7 +172,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
 
         #endregion
 
-        #region VNParserBrackets Errors
+        #region VNBracketsParser Errors
 
         private void _ParseUntilLeftBracketErrors(VNErrorAccumulator errors, VNIndex startIndex, VNIndex? finalIndex, VNIndex? leftUnexpectedCharacterIndex, VNIndex? rightUnexpectedCharacterIndex)
         {
@@ -198,7 +198,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
         private void _AddUnexpectedCharacterError(VNErrorAccumulator errors, VNIndex left, VNIndex right)
         {
             VNError error = new VNError(
-                $"[VisualNovel][Parser][Brackets] Unexpected characters ({left.Line},{left.Character})-({right.Line},{right.Character})",
+                $"[VisualNovel][Parser][Brackets] Unexpected characters ({left.Line},{left.Character})-({right.Line},{right.Character}).",
                 VNError.EStatus.NonFatal,
                 left,
                 right
@@ -209,7 +209,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
         private void _AddParseUntilLeftBracketEOFError(VNErrorAccumulator errors, VNIndex startIndex)
         {
             VNError error = new VNError(
-                $"[VisualNovel][Parser][Brackets] Reached EOF parsing for left bracket ({startIndex.Line},{startIndex.Character})",
+                $"[VisualNovel][Parser][Brackets] Reached EOF parsing for left bracket ({startIndex.Line},{startIndex.Character}).",
                 VNError.EStatus.Fatal,
                 startIndex,
                 null
@@ -220,7 +220,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
         private void _AddParseUntilRightBracketEOFError(VNErrorAccumulator errors, VNBracketPair bracketPair, VNIndex startIndex)
         {
             VNError error = new VNError(
-                $"[VisualNovel][Parser][Brackets] Reached EOF parsing for right bracket of pair {bracketPair.Left}{bracketPair.Right} ({startIndex.Line},{startIndex.Character})",
+                $"[VisualNovel][Parser][Brackets] Reached EOF parsing for right bracket of pair {bracketPair.Left}{bracketPair.Right} ({startIndex.Line},{startIndex.Character}).",
                 VNError.EStatus.Fatal,
                 startIndex,
                 null
