@@ -13,6 +13,7 @@ namespace JLGA.Architecture.State
         void DeactivateState();
         void Push(S child);
         void PopChild(S child);
+        void PopAll();
         S Top();
     }
 }

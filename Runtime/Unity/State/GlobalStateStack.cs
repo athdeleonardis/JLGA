@@ -6,7 +6,7 @@ namespace JLGA.Unity.State
     {
         [SerializeField] private StateStack _globalStack;
 
-        void Start()
+        void Awake()
         {
             StateMachine stateMachine = StateMachine.Instance();
             stateMachine.SetBase(_globalStack);

@@ -15,5 +15,10 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Data
         {
             return new VNString(start, End);
         }
+
+        public override string ToString()
+        {
+            return $"{Start}-{End}";
+        }
     }
 }

@@ -67,7 +67,18 @@ namespace JLGA.Unity.State
 
         public void Push(StateStack child)
         {
-            Children().Add(child);
+            int indexOfChild = _children.IndexOf(child);
+            if (indexOfChild == -1)
+            {
+                _children.Add(child);
+                return;
+            }
+            if (indexOfChild == _children.Count - 1)
+            {
+                return;
+            }
+            _children.RemoveAt(indexOfChild);
+            _children.Add(child);
         }
 
         public StateStack Top()
@@ -79,6 +90,11 @@ namespace JLGA.Unity.State
             }
 
             return children[children.Count - 1];
+        }
+
+        public void PopAll()
+        {
+            _children.Clear();
         }
 
         #endregion

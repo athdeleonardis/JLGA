@@ -98,10 +98,16 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Data
         private void _ToString(VNError error, StringBuilder stringBuilder)
         {
             stringBuilder.Append(error.Description);
+            stringBuilder.Append('\n');
+            if (error.Start == null)
+            {
+                return;
+            }
+            VNIndex start = error.Start.Value;
+            stringBuilder.Append("| ");
+            stringBuilder.Append(_lines[start.Line].Replace('\t', ' '));
             stringBuilder.Append("\n| ");
-            stringBuilder.Append(_lines[error.Start.Line].Replace('\t', ' '));
-            stringBuilder.Append("\n| ");
-            stringBuilder.Append(' ', error.Start.Character);
+            stringBuilder.Append(' ', start.Character);
             stringBuilder.Append('^');
 
             if (error.End == null)
@@ -111,14 +117,14 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Data
             }
 
             VNIndex end = error.End.Value;
-            if (error.Start.Line == end.Line)
+            if (start.Line == end.Line)
             {
-                if (error.Start.Character == end.Character)
+                if (start.Character == end.Character)
                 {
                     stringBuilder.Append('\n');
                     return;
                 }
-                stringBuilder.Append('-', end.Character - error.Start.Character - 1);
+                stringBuilder.Append('-', end.Character - start.Character - 1);
                 stringBuilder.Append("^\n");
                 return;
             }

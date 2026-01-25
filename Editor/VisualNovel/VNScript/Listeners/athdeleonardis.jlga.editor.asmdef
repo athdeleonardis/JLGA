@@ -1,0 +1,16 @@
+{
+    "name": "athdeleonardis.jlga.editor.visualnovel.vnscript.listener",
+    "rootNamespace": "JLGA.Unity.VisualNovel.VNScript.Listener.Editors",
+    "references": [
+        "GUID:badec40ddaacb974f8c10d1189edd592"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

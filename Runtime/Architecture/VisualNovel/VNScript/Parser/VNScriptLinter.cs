@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace JLGA.Architecture.VisualNovel.VNScript.Parser
 {
-    public class VNLinter
+    public class VNLinter<C,R>
     {
         private VNBracketsParser _bracketsParser;
-        private VNActionParser _actionParser;
+        private VNActionParser<C,R> _actionParser;
         private VNBracketPair _actionBracketPair;
 
-        public VNLinter(VNBracketsParser bracketsParser, VNActionParser actionParser, VNBracketPair actionBracketPair)
+        public VNLinter(VNBracketsParser bracketsParser, VNActionParser<C,R> actionParser, VNBracketPair actionBracketPair)
         {
             _bracketsParser = bracketsParser;
             _actionParser = actionParser;
@@ -31,7 +31,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
 
                 if (bracketsParserResult.BracketPair is VNBracketPair bracketPair && bracketPair == _actionBracketPair)
                 {
-                    List<VNActionParser.Result> actionParserResults = _actionParser.Parse(script, errors, bracketsParserResult.BracketPairContents.Value);
+                    List<VNActionParser<C,R>.Result> actionParserResults = _actionParser.Parse(script, errors, bracketsParserResult.BracketPairContents.Value);
                     if (errors.IsFatal)
                     {
                         break;

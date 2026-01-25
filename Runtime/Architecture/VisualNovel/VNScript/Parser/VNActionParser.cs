@@ -3,19 +3,19 @@ using JLGA.Architecture.VisualNovel.VNScript.Data;
 
 namespace JLGA.Architecture.VisualNovel.VNScript.Parser
 {
-    public class VNActionParser
+    public class VNActionParser<C,R>
     {
-        private char _argumentSeparationCharacter;
-        private SortedSet<char> _charactersToIgnore;
-        private SortedDictionary<string, VNAction> _actions;
-        private VNBracketPair _argumentsBracketPair;
+        private readonly char _argumentSeparationCharacter;
+        private readonly SortedSet<char> _charactersToIgnore;
+        private readonly SortedDictionary<string, VNAction<C, R>> _actions;
+        private readonly VNBracketPair _argumentsBracketPair;
 
         public readonly struct Result
         {
-            public VNAction Action { get; }
+            public VNAction<C,R> Action { get; }
             public List<VNString> Arguments { get; }
 
-            public Result(VNAction action, List<VNString> arguments)
+            public Result(VNAction<C,R> action, List<VNString> arguments)
             {
                 Action = action;
                 Arguments = arguments;
@@ -66,11 +66,11 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
         {
             _argumentSeparationCharacter = argumentSeparationCharacter;
             _charactersToIgnore = new SortedSet<char>(charactersToIgnore);
-            _actions = new SortedDictionary<string, VNAction>();
+            _actions = new SortedDictionary<string, VNAction<C,R>>();
             _argumentsBracketPair = argumentsBracketPair;
         }
 
-        public void AddAction(VNAction action)
+        public void AddAction(VNAction<C,R> action)
         {
             _actions.Add(action.Name, action);
         }
@@ -112,7 +112,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
                 return null;
             }
 
-            VNAction? action = _ParseActionName(script, errors, range);
+            VNAction<C,R>? action = _ParseActionName(script, errors, range);
             if (action == null)
             {
                 return null;
@@ -127,7 +127,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
             return new Result(action.Value, arguments);
         }
 
-        private VNAction? _ParseActionName(Data.VNScript script, VNErrorAccumulator errors, IndexRange range)
+        private VNAction<C,R>? _ParseActionName(Data.VNScript script, VNErrorAccumulator errors, IndexRange range)
         {
             ResultActionName parseResult = _ParseActionNameInternal(script, range);
             return _ParseActionNameHandleResult(script, errors, range, parseResult);
@@ -157,7 +157,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
                     break;
                 }
 
-                if (!_IsAllowedActionnameCharacter(currentCharacter))
+                if (!_IsAllowedActionNameCharacter(currentCharacter))
                 {
                     (firstUnallowedCharacter, lastUnallowedCharacter) = _UpdateUnallowedCharacterRange(firstUnallowedCharacter, range.Index);
                 }
@@ -169,7 +169,7 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
             return new ResultActionName(firstNameIndex, lastNameIndex, leftArgumentBracketFound, firstUnallowedCharacter, lastUnallowedCharacter);
         }
 
-        private VNAction? _ParseActionNameHandleResult(Data.VNScript script, VNErrorAccumulator errors, IndexRange range, ResultActionName result)
+        private VNAction<C, R>? _ParseActionNameHandleResult(Data.VNScript script, VNErrorAccumulator errors, IndexRange range, ResultActionName result)
         {
             // Immediately parsed an argument left bracket
             if (range.Index == result.LastNameCharacter)
@@ -274,6 +274,8 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
                 _ParseUntilRightArgumentsBracket(script, errors, range);
                 return null;
             }
+            // Means right bracket found
+            range.Next();
 
             return arguments;
         }
@@ -340,9 +342,9 @@ namespace JLGA.Architecture.VisualNovel.VNScript.Parser
             return new VNString(argumentStart, argumentEnd);
         }
 
-        private bool _IsAllowedActionnameCharacter(char nameCharacter)
+        private bool _IsAllowedActionNameCharacter(char nameCharacter)
         {
-            return char.IsLetterOrDigit(nameCharacter);
+            return nameCharacter == '.' || char.IsLetterOrDigit(nameCharacter);
         }
 
         private (VNIndex, VNIndex) _UpdateUnallowedCharacterRange(VNIndex? start, VNIndex newEnd)
