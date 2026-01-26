@@ -620,6 +620,12 @@ namespace JLGA.Unity.VisualNovel.Parser
                 new VNBracketPair[] { _s_nameBracketPair },
                 (context, args, errors) =>
                 {
+                    string soundName = context.Script.ToString(args[0]);
+                    if (!context.Listeners.SoundSelector.Select(soundName))
+                    {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Sound]: Sound '{soundName}' does not exist {args[0]}.", VNError.EStatus.NonFatal, args[0]));
+                        return Result.EndAction;
+                    }
                     return Result.Continue;
                 }
             ));
@@ -628,6 +634,18 @@ namespace JLGA.Unity.VisualNovel.Parser
                 new VNBracketPair[] { _s_fileBracketPair },
                 (context, args, errors) =>
                 {
+                    string soundName = context.Script.ToString(args[0]);
+                    AVNSound soundSelected = context.Listeners.SoundSelector.CurrentlySelected;
+                    if (soundSelected == null)
+                    {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Sound]: Sound not selected {args[0]}.", VNError.EStatus.NonFatal, args[0]));
+                        return Result.EndAction;
+                    }
+                    if (!soundSelected.Load(soundName))
+                    {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Sound]: Attemped to load sound '{soundName}' which does not exist {args[0]}.", VNError.EStatus.NonFatal, args[0]));
+                        return Result.EndAction;
+                    }
                     return Result.Continue;
                 }
             ));
@@ -636,6 +654,54 @@ namespace JLGA.Unity.VisualNovel.Parser
                 new VNBracketPair[] { },
                 (context, args, errors) =>
                 {
+                    AVNSound soundSelected = context.Listeners.SoundSelector.CurrentlySelected;
+                    if (soundSelected == null)
+                    {
+                        return Result.EndAction;
+                    }
+                    soundSelected.Play();
+                    return Result.Continue;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Sound.Loop",
+                new VNBracketPair[] { },
+                (context, args, errors) =>
+                {
+                    AVNSound soundSelected = context.Listeners.SoundSelector.CurrentlySelected;
+                    if (soundSelected == null)
+                    {
+                        return Result.EndAction;
+                    }
+                    soundSelected.Loop();
+                    return Result.Continue;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Sound.Pause",
+                new VNBracketPair[] { },
+                (context, args, errors) =>
+                {
+                    AVNSound soundSelected = context.Listeners.SoundSelector.CurrentlySelected;
+                    if (soundSelected == null)
+                    {
+                        return Result.EndAction;
+                    }
+                    soundSelected.Pause();
+                    return Result.Continue;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Sound.Unpause",
+                new VNBracketPair[] { },
+                (context, args, errors) =>
+                {
+                    AVNSound soundSelected = context.Listeners.SoundSelector.CurrentlySelected;
+                    if (soundSelected == null)
+                    {
+                        return Result.EndAction;
+                    }
+                    soundSelected.Unpause();
                     return Result.Continue;
                 }
             ));
