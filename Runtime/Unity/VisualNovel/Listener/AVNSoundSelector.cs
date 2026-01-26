@@ -3,7 +3,7 @@ using JLGA.Architecture.VisualNovel.Listener;
 
 namespace JLGA.Unity.VisualNovel.Listener
 {
-    public abstract class AVNSoundSelector : MonoBehaviour, IVNListenerSelector<AVNSound>;
+    public abstract class AVNSoundSelector : MonoBehaviour, IVNListenerSelector<AVNSound>
     {
         public abstract AVNSound CurrentlySelected { get; }
 
