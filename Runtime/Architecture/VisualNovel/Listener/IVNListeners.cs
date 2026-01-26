@@ -4,9 +4,9 @@ namespace JLGA.Architecture.VisualNovel.Listener
         where A : IVNActor
         where D : IVNDisplay
     {
-        public IVNActorSelector<A> ActorSelector { get; }
-        public IVNDisplaySelector<D> DisplaySelector { get; }
-        public IVNControlledDisplaySelector<D> ControlledDisplaySelector { get; }
+        public IVNListenerSelector<A> ActorSelector { get; }
+        public IVNListenerSelector<D> DisplaySelector { get; }
+        public IVNListenerSelector<D> ControlledDisplaySelector { get; }
         public IVNFlags Flags { get; }
         public IVNState State { get; }
 

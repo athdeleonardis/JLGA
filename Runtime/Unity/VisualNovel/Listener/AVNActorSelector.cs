@@ -1,14 +1,6 @@
-using UnityEngine;
-using JLGA.Architecture.VisualNovel.Listener;
-
 namespace JLGA.Unity.VisualNovel.Listener
 {
-    public abstract class AVNActorSelector : MonoBehaviour, IVNActorSelector<AVNActor>
+    public abstract class AVNActorSelector : AVNListenerSelector<AVNActor>
     {
-        public abstract AVNActor CurrentlySelected { get; }
-
-        public abstract bool Select(string actorName);
-        public abstract bool AddActor(AVNActor actor);
-        public abstract void Cleanup();
     }
 }

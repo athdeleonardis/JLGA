@@ -282,7 +282,7 @@ namespace JLGA.Unity.VisualNovel.Parser
                         return Result.EndAction;
                     }
                     actor.SetVNListenerName(newActorName);
-                    if (!context.Listeners.ActorSelector.AddActor(actor))
+                    if (!context.Listeners.ActorSelector.AddListener(actor))
                     {
                         errors.Add(new VNError($"Actor name already in use {args[1]}.", VNError.EStatus.NonFatal, args[1]));
                         return Result.EndAction;
@@ -426,7 +426,7 @@ namespace JLGA.Unity.VisualNovel.Parser
                         return Result.EndAction;
                     }
                     display.SetVNListenerName(displayName);
-                    if (!context.Listeners.DisplaySelector.AddDisplay(display))
+                    if (!context.Listeners.DisplaySelector.AddListener(display))
                     {
                         errors.Add(new VNError($"Display name already in use {args[0]}.", VNError.EStatus.NonFatal, args[0]));
                         return Result.EndAction;
