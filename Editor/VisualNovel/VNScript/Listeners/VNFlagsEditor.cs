@@ -1,3 +1,4 @@
+using JLGA.Unity.VisualNovel.Listener;
 using System.Collections.Generic;
 using UnityEditor;
 

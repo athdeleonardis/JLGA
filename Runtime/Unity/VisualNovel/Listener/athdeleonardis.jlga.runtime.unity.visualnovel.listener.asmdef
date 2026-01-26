@@ -1,0 +1,16 @@
+{
+    "name": "athdeleonardis.jlga.runtime.unity.visualnovel.listener",
+    "rootNamespace": "JLGA.Unity.VisualNovel.Listener",
+    "references": [
+        "GUID:2e75f06c34473504a9a4e3724c7ddc81"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

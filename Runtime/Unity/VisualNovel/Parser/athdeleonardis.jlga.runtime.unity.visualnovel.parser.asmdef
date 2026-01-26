@@ -1,0 +1,19 @@
+{
+    "name": "athdeleonardis.jlga.runtime.unity.visualnovel.parser",
+    "rootNamespace": "JLGA.Unity.VisualNovel.Parser",
+    "references": [
+        "GUID:29fd50a1dc2feba4da0c6511054d954e",
+        "GUID:badec40ddaacb974f8c10d1189edd592",
+        "GUID:14390ad6a4167ce41aca3d6dc99e6e2e",
+        "GUID:2e75f06c34473504a9a4e3724c7ddc81"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
