@@ -258,6 +258,7 @@ namespace JLGA.Unity.VisualNovel.Parser
             _s_InitializeActionParser_ActorActions();
             _s_InitializeActionParser_DisplayActions();
             _s_InitializeActionParser_Miscellaneous();
+            _s_IntializeActionParser_SoundActions();
         }
 
         private static void _s_InitializeActionParser_ActorActions()
@@ -559,6 +560,7 @@ namespace JLGA.Unity.VisualNovel.Parser
                     return Result.Continue;
                 }
             ));
+
             _s_actionParser.AddAction(new VNAction<Context, Result>(
                 "Marker.Jump",
                 new VNBracketPair[] { _s_markerBracketPair },
@@ -569,6 +571,7 @@ namespace JLGA.Unity.VisualNovel.Parser
                     return Result.Restart;
                 }
             ));
+
             _s_actionParser.AddAction(new VNAction<Context, Result>(
                 "Flag.Set",
                 new VNBracketPair[] { _s_flagBracketPair, _s_commentBracketPair },
@@ -603,6 +606,90 @@ namespace JLGA.Unity.VisualNovel.Parser
                     return expectedFlagValue.Equals(actualFlag) ? Result.Continue : Result.EndAction;
                 }
             ));
+
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Counter.Set",
+                new VNBracketPair[] { _s_flagBracketPair, _s_fileBracketPair },
+                (context, args, errors) =>
+                {
+                    string counter = context.Script.ToString(args[0]);
+                    float value;
+                    if (!float.TryParse(context.Script.ToString(args[1]), out value)) {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Counter][Set]: Counter value must be a float {args[1]}.", VNError.EStatus.NonFatal, args[1]));
+                        return Result.EndAction;
+                    }
+                    context.Listeners.Counters.Set(counter, value);
+                    return Result.Continue;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                 "Counter.Add",
+                 new VNBracketPair[] { _s_flagBracketPair, _s_fileBracketPair },
+                 (context, args, errors) =>
+                 {
+                     string counter = context.Script.ToString(args[0]);
+                     float value;
+                     if (!float.TryParse(context.Script.ToString(args[1]), out value)) {
+                         errors.Add(new VNError($"[VisualNovel][VNParser][Counter][Add]: Counter value added must be a float {args[1]}.", VNError.EStatus.NonFatal, args[1]));
+                         return Result.EndAction;
+                     }
+                     context.Listeners.Counters.Add(counter, value);
+                     return Result.Continue;
+                 }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Counter.IfEqualTo",
+                new VNBracketPair[] { _s_flagBracketPair, _s_fileBracketPair },
+                (context, args, errors) =>
+                {
+                    string counter = context.Script.ToString(args[0]);
+                    if (!float.TryParse(context.Script.ToString(args[1]), out float value))
+                    {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Counter][IfEqualTo]: Counter value to compare to must be a float {args[1]}.", VNError.EStatus.NonFatal, args[1]));
+                        return Result.EndAction;
+                    }
+                    float? actualValueNullable = context.Listeners.Counters.Get(counter);
+                    float actualValue = (actualValueNullable == null) ? 0 : actualValueNullable.Value;
+
+                    return (value == actualValue) ? Result.Continue : Result.EndAction;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Counter.IfLessThan",
+                new VNBracketPair[] { _s_flagBracketPair, _s_fileBracketPair },
+                (context, args, errors) =>
+                {
+                    string counter = context.Script.ToString(args[0]);
+                    float value;
+                    if (!float.TryParse(context.Script.ToString(args[1]), out value)) {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Counter][IfLessThan]: Counter value to compare to must be a float {args[1]}.", VNError.EStatus.NonFatal, args[1]));
+                        return Result.EndAction;
+                    }
+                    float? actualValueNullable = context.Listeners.Counters.Get(counter);
+                    float actualValue = (actualValueNullable == null) ? 0 : actualValueNullable.Value;
+
+                    return (value < actualValue) ? Result.Continue : Result.EndAction;
+                }
+            ));
+            _s_actionParser.AddAction(new VNAction<Context, Result>(
+                "Counter.IfGreaterThan",
+                new VNBracketPair[] { _s_flagBracketPair, _s_fileBracketPair },
+                (context, args, errors) =>
+                {
+                    string counter = context.Script.ToString(args[0]);
+                    float value;
+                    if (!float.TryParse(context.Script.ToString(args[1]), out value))
+                    {
+                        errors.Add(new VNError($"[VisualNovel][VNParser][Counter][IfGreaterThan]: Counter value to compare to must be a float {args[1]}.", VNError.EStatus.NonFatal, args[1]));
+                        return Result.EndAction;
+                    }
+                    float? actualValueNullable = context.Listeners.Counters.Get(counter);
+                    float actualValue = (actualValueNullable == null) ? 0 : actualValueNullable.Value;
+
+                    return (value > actualValue) ? Result.Continue : Result.EndAction;
+                }
+            ));
+
             _s_actionParser.AddAction(new VNAction<Context, Result>(
                 "End",
                 new VNBracketPair[] { },

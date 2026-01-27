@@ -10,6 +10,7 @@ namespace JLGA.Unity.VisualNovel.Listener
         [SerializeField] private AVNDisplaySelector _controlledDisplaySelector;
         [SerializeField] private AVNSoundSelector _soundSelector;
         [SerializeField] private VNFlags _flags;
+        [SerializeField] private AVNCounters _counters;
         [SerializeField] private AVNState _state;
 
         public IVNListenerSelector<AVNActor> ActorSelector => _actorSelector;
@@ -17,6 +18,7 @@ namespace JLGA.Unity.VisualNovel.Listener
         public IVNListenerSelector<AVNDisplay> ControlledDisplaySelector => _controlledDisplaySelector;
         public IVNListenerSelector<AVNSound> SoundSelector => _soundSelector;
         public IVNFlags Flags => _flags;
+        public IVNCounters Counters => _counters;
         public IVNState State => _state;
 
         public void Initialize()

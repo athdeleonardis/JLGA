@@ -10,6 +10,7 @@ namespace JLGA.Architecture.VisualNovel.Listener
         public IVNListenerSelector<D> ControlledDisplaySelector { get; }
         public IVNListenerSelector<S> SoundSelector { get; }
         public IVNFlags Flags { get; }
+        public IVNCounters Counters { get; }
         public IVNState State { get; }
 
         public void Initialize();
