@@ -2,16 +2,26 @@ using System;
 
 namespace JLGA.Architecture.VisualNovel.Data
 {
+    /// <summary>
+    /// Represents a left bracket and a right bracket in a VNScript.
+    /// </summary>
     public readonly struct VNBracketPair : IEquatable<VNBracketPair>
     {
+        /// <summary>The bracket pair's left bracket.</summary>
+        public char Left { get; }
+        /// <summary>The bracket pair's right bracket.</summary>
+        public char Right { get; }
+
+        /// <summary>
+        /// Create a VNBracket pair with a left and right bracket.
+        /// </summary>
+        /// <param name="leftBracket">The bracket pair's left bracket.</param>
+        /// <param name="rightBracket">The bracket pair's right bracket.</param>
         public VNBracketPair(char leftBracket, char rightBracket)
         {
             Left = leftBracket;
             Right = rightBracket;
         }
-
-        public char Left { get; }
-        public char Right { get; }
 
         public static bool operator ==(VNBracketPair left, VNBracketPair right)
         {
