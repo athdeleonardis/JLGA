@@ -3,6 +3,11 @@ using JLGA.Architecture.VisualNovel.Data;
 
 namespace JLGA.Architecture.VisualNovel.Parser
 {
+    /// <summary>
+    /// Visual Novel Action Parser. Represents a parser that reads through visual novel scripts between a start and non-inclusive end index, and parses visual novel actions.
+    /// </summary>
+    /// <typeparam name="C">The input context type for the VNAction callbacks.</typeparam>
+    /// <typeparam name="R">The return type for the VNAction callbacks.</typeparam>
     public class VNActionParser<C, R>
     {
         private readonly char _argumentSeparationCharacter;
@@ -10,11 +15,21 @@ namespace JLGA.Architecture.VisualNovel.Parser
         private readonly SortedDictionary<string, VNAction<C, R>> _actions;
         private readonly VNBracketPair _argumentsBracketPair;
 
+        /// <summary>
+        /// Represents the result of a successful parse between a start and an end index.
+        /// </summary>
         public readonly struct Result
         {
+            /// <summary>The VNAction parsed.</summary>
             public VNAction<C, R> Action { get; }
+            /// <summary>The list of VNStrings that are the arguments to the parsed VNAction.</summary>
             public List<VNString> Arguments { get; }
 
+            /// <summary>
+            /// Create a result where a VNAction and it's arguments were parsed.
+            /// </summary>
+            /// <param name="action">The VNAction that was parsed.</param>
+            /// <param name="arguments">The arguments to the VNAction that was parsed.</param>
             public Result(VNAction<C, R> action, List<VNString> arguments)
             {
                 Action = action;
@@ -22,6 +37,9 @@ namespace JLGA.Architecture.VisualNovel.Parser
             }
         }
 
+        /// <summary>
+        /// Represents a scrolling VNIndex that stops scrolling when it reaches an end VNIndex.
+        /// </summary>
         private class IndexRange
         {
             private VNScript _script;
@@ -42,12 +60,20 @@ namespace JLGA.Architecture.VisualNovel.Parser
             }
         }
 
+        /// <summary>
+        /// Represents the result of attempting to parse a VNAction's name.
+        /// </summary>
         private readonly struct ResultActionName
         {
+            /// <summary>The VNIndex of the first character of the VNAction's name.</summary>
             public VNIndex FirstNameCharacter { get; }
+            /// <summary>The VNIndex of the last character of the VNAction's name.</summary>
             public VNIndex LastNameCharacter { get; }
+            /// <summary>Whether the left argument bracket was parsed.</summary>
             public bool LeftArgumentBracketParsed { get; }
+            /// <summary>The nullable VNIndex of the first unallowed character of the VNAction's name. Null if no unallowed name characters were parsed.</summary>
             public VNIndex? FirstUnallowedCharacter { get; }
+            /// <summary>The nullable VNIndex of the last unallowed character of the VNAction's name. Null if no unallowed name characters were parsed.</summary>
             public VNIndex? LastUnallowedCharacter { get; }
 
             public ResultActionName(VNIndex firstNameCharacter, VNIndex lastNameCharacter, bool leftArgumentBracketParsed, VNIndex? firstUnallowedCharacter, VNIndex? lastUnallowedCharacter)
@@ -62,6 +88,12 @@ namespace JLGA.Architecture.VisualNovel.Parser
 
         #region VNActionParser Public
 
+        /// <summary>
+        /// Create a visual novel action parser that parses visual novel scripts with actions that have arguments surrounded by a particular bracket pair, arguments separated by a particular character, and characters that are skipped between arguments.
+        /// </summary>
+        /// <param name="argumentSeparationCharacter">The character that separates each action's arguments.</param>
+        /// <param name="charactersToIgnore">The characters that are skipped between parsing each arction's arguments.</param>
+        /// <param name="argumentsBracketPair">The bracket pair that surround each action's arguments.</param>
         public VNActionParser(char argumentSeparationCharacter, string charactersToIgnore, VNBracketPair argumentsBracketPair)
         {
             _argumentSeparationCharacter = argumentSeparationCharacter;
@@ -70,11 +102,22 @@ namespace JLGA.Architecture.VisualNovel.Parser
             _argumentsBracketPair = argumentsBracketPair;
         }
 
+        /// <summary>
+        /// Add a valid action parsable by the visual novel action parser.
+        /// </summary>
+        /// <param name="action">The new action to be parsable.</param>
         public void AddAction(VNAction<C, R> action)
         {
             _actions.Add(action.Name, action);
         }
-
+        
+        /// <summary>
+        /// Parse actions of a visual novel script between a start and non-inclusive end VNIndex defined by a VNString, and placing any errors that occur in an error accumulator.
+        /// </summary>
+        /// <param name="script">The visual novel script to parse.</param>
+        /// <param name="errors">The visual novel error accumulator to add errors to.</param>
+        /// <param name="indexRange">The VNString defining the start and non-inclusive end VNIndexes to parse between.</param>
+        /// <returns></returns>
         public List<Result> Parse(VNScript script, VNErrorAccumulator errors, VNString indexRange)
         {
             List<Result> results = new List<Result>();

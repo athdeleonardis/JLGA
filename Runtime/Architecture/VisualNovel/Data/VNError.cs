@@ -1,7 +1,7 @@
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents an error in a VNScript.
+    /// Visual Novel Error. Represents an error in a VNScript.
     /// </summary>
     public readonly struct VNError
     {

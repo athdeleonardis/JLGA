@@ -3,7 +3,7 @@ using System.Text;
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a visual novel script, separated line-by-line, indexable via 'VNIndex'.
+    /// Visual Novel Script. Represents a visual novel script, separated line-by-line, indexable via 'VNIndex'.
     /// </summary>
     public class VNScript
     {

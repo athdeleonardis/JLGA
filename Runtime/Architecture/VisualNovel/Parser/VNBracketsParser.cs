@@ -3,25 +3,44 @@ using JLGA.Architecture.VisualNovel.Data;
 
 namespace JLGA.Architecture.VisualNovel.Parser
 {
+    /// <summary>
+    /// Visual Novel Brackets Parser. Represents a text parser that parses VNScripts, indexing with VNIndex. Parses VNBracketPairs and a parse-ending character;
+    /// </summary>
     public class VNBracketsParser
     {
         private readonly SortedDictionary<char, VNBracketPair> _bracketPairs;
         private readonly SortedSet<char> _charactersToIgnore;
         private readonly char _endParseCharacter;
 
+        /// <summary>
+        /// Represents the overall outcome of a parse.
+        /// </summary>
         public enum ResultType
         {
+            /// <summary>The parse-ending character was parsed.</summary>
             EndParse,
+            /// <summary>A bracket pair was parsed.</summary>
             BracketPair,
+            /// <summary>An error occurred during parsing.</summary>
             Error
         }
 
+        /// <summary>
+        /// Represents all relevent information as a result of a parse.
+        /// </summary>
         public readonly struct Result
         {
+            /// <summary>The overall outcome of the parse.</summary>
             public ResultType Type { get; }
+            /// <summary>The final index reached when parsing.</summary>
             public VNIndex? EndIndex { get; }
+            /// <summary>Whether to end parsing.</summary>
             public bool EndParse { get; }
+            /// <summary>The bracket pair parsed. Null if no bracket pair was parsed.</summary>
             public VNBracketPair? BracketPair { get; }
+            /// <summary>
+            /// The VNString containing the bracket pair contents, with the start at the first character within the brackets, and end at the right bracket. Null if no bracket pair was parsed.
+            /// </summary>
             public VNString? BracketPairContents { get; }
 
             private Result(ResultType type, VNIndex? endIndex, bool endParse, VNBracketPair? bracketPair, VNString? bracketPairContents)
@@ -33,16 +52,32 @@ namespace JLGA.Architecture.VisualNovel.Parser
                 BracketPairContents = bracketPairContents;
             }
 
+            /// <summary>
+            /// Create a parse result that represents a parse-ending character having been read.
+            /// </summary>
+            /// <param name="endIndex">The index after the parse-ending character was read.</param>
+            /// <returns>A result representing a parse-ending character having been read.</returns>
             public static Result TypeEndParse(VNIndex? endIndex)
             {
                 return new Result(ResultType.EndParse, endIndex, true, null, null);
             }
 
+            /// <summary>
+            /// Create a parse result that represents a bracket pair having been read.
+            /// </summary>
+            /// <param name="endIndex">The index after the right bracket was read.</param>
+            /// <param name="bracketPair">The bracket pair that was read.</param>
+            /// <param name="bracketPairString">The string containing the bracket pair contents. The start at the first character within the brackets, and the end at the right bracket.</param>
+            /// <returns>A result representing a bracket pair having been read.</returns>
             public static Result TypeBracketPair(VNIndex? endIndex, VNBracketPair bracketPair, VNString bracketPairString)
             {
                 return new Result(ResultType.BracketPair, endIndex, false, bracketPair, bracketPairString);
             }
 
+            /// <summary>
+            /// Creates a parse result that represents an error having occurred while parsing.
+            /// </summary>
+            /// <returns>A result representing an error having occurred while parsing.</returns>
             public static Result TypeError()
             {
                 return new Result(ResultType.Error, null, true, null, null);
@@ -51,6 +86,11 @@ namespace JLGA.Architecture.VisualNovel.Parser
 
         #region VNBracketsParser Public
 
+        /// <summary>
+        /// Create a brackets parser that parses a parse-ending character and skips certain characters to ignore between bracket pairs.
+        /// </summary>
+        /// <param name="endParseCharacter">The character that represents a parse should end.</param>
+        /// <param name="charactersToIgnore">The characters that are skipped over between bracket pairs and </param>
         public VNBracketsParser(char endParseCharacter, string charactersToIgnore)
         {
             _bracketPairs = new SortedDictionary<char, VNBracketPair>();
@@ -58,13 +98,17 @@ namespace JLGA.Architecture.VisualNovel.Parser
             _endParseCharacter = endParseCharacter;
         }
 
+        /// <summary>
+        /// Add a bracket pair to the list of valid bracket pairs this parser recognizes.
+        /// </summary>
+        /// <param name="bracketPair">The bracket pair to be added.</param>
         public void AddBracketPair(VNBracketPair bracketPair)
         {
             _bracketPairs.Add(bracketPair.Left, bracketPair);
         }
 
         /// <summary>
-        /// Parses until the end parse character, or until a left bracket. If a left bracket is reached, parses until the corresponding right bracket.
+        /// Parses until the end parse character, or until a valid left bracket. If a valid left bracket is reached, parses until the corresponding right bracket.
         /// </summary>
         /// <param name="script">The visual novel script to parse.</param>
         /// <param name="errors">The error accumulator to add to if there are any errors.</param>

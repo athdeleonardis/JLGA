@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace JLGA.Architecture.VisualNovel.Listener
 {
+    /// <summary>
+    /// (Interface) Visual Novel Global Flags. Represents a globally accessible string-to-string mapping.
+    /// </summary>
     public class VNGlobalFlags : IVNFlags
     {
         private static IVNFlags _instance;
@@ -9,12 +12,8 @@ namespace JLGA.Architecture.VisualNovel.Listener
         private readonly SortedDictionary<string, string> _flags;
 
         public IDictionary<string, string> Flags => _flags;
-
-        private VNGlobalFlags()
-        {
-            _flags = new SortedDictionary<string, string>();
-        }
-
+        
+        /// <summary>The globally accessible instance.</summary>
         public static IVNFlags Instance
         {
             get
@@ -27,6 +26,16 @@ namespace JLGA.Architecture.VisualNovel.Listener
             }
         }
 
+        private VNGlobalFlags()
+        {
+            _flags = new SortedDictionary<string, string>();
+        }
+
+        public void SetFlag(string flag, string value)
+        {
+            _flags[flag] = value;
+        }
+
         public string GetFlag(string flag)
         {
             if (_flags.TryGetValue(flag, out string value))
@@ -34,11 +43,6 @@ namespace JLGA.Architecture.VisualNovel.Listener
                 return value;
             }
             return null;
-        }
-
-        public void SetFlag(string flag, string value)
-        {
-            _flags[flag] = value;
         }
     }
 }

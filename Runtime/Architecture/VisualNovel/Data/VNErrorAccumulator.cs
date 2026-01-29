@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a list of visual novel errors, keeping track of whether any errors added are fatal.
+    /// Visual Novel Error Accumulator. Represents a list of visual novel errors, keeping track of whether any errors added are fatal.
     /// </summary>
     public class VNErrorAccumulator
     {

@@ -3,7 +3,7 @@ using System;
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a left bracket and a right bracket in a VNScript.
+    /// Visual Novel Bracket Pair. Represents a left bracket and a right bracket in a VNScript.
     /// </summary>
     public readonly struct VNBracketPair : IEquatable<VNBracketPair>
     {

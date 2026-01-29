@@ -3,7 +3,7 @@ using System;
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a line and character of a VNScript.
+    /// Visual Novel Index. Represents a line and character of a VNScript.
     /// </summary>
     public readonly struct VNIndex : IEquatable<VNIndex>
     {

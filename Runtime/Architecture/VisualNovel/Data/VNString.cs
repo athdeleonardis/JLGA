@@ -1,7 +1,7 @@
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a portion of text in a VNScript.
+    /// Visual Novel String. Represents a portion of text in a VNScript.
     /// </summary>
     public readonly struct VNString
     {

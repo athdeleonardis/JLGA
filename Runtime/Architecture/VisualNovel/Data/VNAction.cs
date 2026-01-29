@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace JLGA.Architecture.VisualNovel.Data
 {
     /// <summary>
-    /// Represents a named visual novel action whose arguments are surrounded by bracket pairs.
+    /// Visual Novel Action. Represents a named visual novel action whose arguments are surrounded by bracket pairs.
     /// </summary>
     /// <typeparam name="C">The context type provided to the callback function.</typeparam>
     /// <typeparam name="R">The return type of the callback function.</typeparam>
